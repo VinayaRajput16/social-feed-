@@ -64,6 +64,8 @@ const likePost = async (userId, username, postId) => {
 
         await post.save();
 
+        await post.populate("user", "username");
+
         return post;
     } catch (error) {
         throw new Error(error.message);
@@ -78,9 +80,12 @@ const commentOnPost = async (userId, username, postId, commentData) => {
         if (!commentData.text?.trim()) {
             throw new Error("Comment cannot be empty");
         }
-        
+
         post.comments.push({ ...commentData, user: userId, username });
         await post.save();
+
+        await post.populate("user", "username");
+
         return post;
     } catch (error) {
         throw new Error(error.message);

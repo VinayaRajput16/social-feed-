@@ -18,11 +18,17 @@ function Navbar() {
 
   const isLoggedIn = !!localStorage.getItem("token");
 
+
   function handleLogout() {
     localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("username");
+
     setProfile(null);
+
     navigate("/login");
   }
+
 
   useEffect(() => {
     async function fetchProfile() {

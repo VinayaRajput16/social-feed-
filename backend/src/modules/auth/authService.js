@@ -21,14 +21,19 @@ const login = async (username, password) => {
   const match = await bcrypt.compare(password, user.password);
   if (!match) throw new Error("Invalid credentials");
 
-  // issue JWT
   const token = jwt.sign(
     { id: user._id, username: user.username },
-    process.env.JWT_SECRET,   
-    { expiresIn: "1h" }       // token validity
+    process.env.JWT_SECRET,
+    { expiresIn: "1h" }
   );
 
-  return token;
+  return {
+    token,
+    user: {
+      id: user._id,
+      username: user.username
+    }
+  };
 };
 
 export default { register, login };

@@ -61,27 +61,15 @@ function PostCard({ postId }) {
 
   const handleLike = async () => {
     setIsLikeLoading(true);
+
     try {
-      const res = await api.post(`/posts/${post._id}/like`);
-      const updatedPost = res.data.post || res.data;
-      setPost((prev) => ({
-        ...prev,
-        likeCount:
-          updatedPost.likeCount !== undefined
-            ? updatedPost.likeCount
-            : (prev.likeCount || 0) + (prev.isLiked ? -1 : 1),
-        isLiked:
-          updatedPost.isLiked !== undefined ? updatedPost.isLiked : !prev.isLiked,
-      }));
+      const res = await api.post(
+        `/posts/${post._id}/like`
+      );
+
+      setPost(res.data.post);
     } catch (err) {
       console.error("Error liking post:", err);
-      setPost((prev) => ({
-        ...prev,
-        isLiked: !prev.isLiked,
-        likeCount: prev.isLiked
-          ? (prev.likeCount || 0) - 1
-          : (prev.likeCount || 0) + 1,
-      }));
     } finally {
       setIsLikeLoading(false);
     }
@@ -112,8 +100,21 @@ function PostCard({ postId }) {
     }
   };
 
-  const likeCount = post.likeCount || 0;
-  const isLiked = post.isLiked || false;
+  const likeCount = post.likes?.length || 0;
+
+  const currentUserId =
+    localStorage.getItem("userId");
+
+  const isLiked =
+    post.likes?.some((like) => {
+      const likeUserId =
+        typeof like.user === "object"
+          ? like.user._id
+          : like.user;
+
+      return likeUserId === currentUserId;
+    }) || false;
+
   const comments = post.comments || [];
 
   return (
@@ -259,7 +260,7 @@ function PostCard({ postId }) {
         </Box>
       )}
 
-      {/* Collapsible comments — fully scrollable, ALL comments rendered */}
+      {/* Collapsible comments */}
       <Collapse in={showComments} timeout="auto">
         <Box
           ref={commentsBoxRef}
@@ -280,7 +281,7 @@ function PostCard({ postId }) {
             },
           }}
         >
-          {[...comments] 
+          {[...comments]
             .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) // newest first
             .map((comment, index) => (
               <Box key={comment._id || index} sx={{

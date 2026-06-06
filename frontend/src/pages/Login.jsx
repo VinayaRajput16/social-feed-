@@ -29,7 +29,11 @@ function Login() {
     setLoading(true);
     try {
       const res = await api.post("/auth/login", { username, password });
+
       localStorage.setItem("token", res.data.token);
+      localStorage.setItem("userId", res.data.user.id);
+      localStorage.setItem("username", res.data.user.username);
+      
       navigate("/");
     } catch (err) {
       setError(err.response?.data?.message || "Invalid username or password.");
@@ -39,15 +43,15 @@ function Login() {
   }
 
   const pageBg = {
-  minHeight: "100vh",
-  position: "relative",
-  overflow: "hidden",
-  background: `
+    minHeight: "100vh",
+    position: "relative",
+    overflow: "hidden",
+    background: `
     radial-gradient(circle at top left, rgba(25, 118, 210, 0.12), transparent 35%),
     radial-gradient(circle at bottom right, rgba(156, 39, 176, 0.10), transparent 30%),
     linear-gradient(180deg, #f8fbff 0%, #eef4ff 100%)
   `,
-};
+  };
 
   return (
     <Box
