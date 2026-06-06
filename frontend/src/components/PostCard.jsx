@@ -185,9 +185,6 @@ function PostCard({ postId }) {
       {post.text && (
         <CardContent sx={{ px: 2, py: 1.5, "&:last-child": { pb: 1.5 } }}>
           <Typography variant="body2" color="text.primary" sx={{ lineHeight: 1.6 }}>
-            <Box component="span" fontWeight={700} mr={0.5}>
-              {post.user?.username || "Unknown"}
-            </Box>
             {post.text}
           </Typography>
         </CardContent>
@@ -300,7 +297,7 @@ function PostCard({ postId }) {
                     color="text.primary"
                     sx={{ fontSize: "0.78rem", flexShrink: 0 }}
                   >
-                    {comment.user?.username || "Unknown"}
+                    {comment.username || "Unknown"}
                   </Typography>
                   <Typography
                     variant="body2"
