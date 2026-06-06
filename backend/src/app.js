@@ -16,7 +16,7 @@ app.use(cors({
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
-// mount all routes
+// mounted all routes
 app.use("/api", routes);
 
 // global error handlers

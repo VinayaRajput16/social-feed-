@@ -44,7 +44,6 @@ function Navbar() {
     ? profile.user.username.charAt(0).toUpperCase()
     : "?";
 
-  // Generate a consistent color from username
   const avatarColors = ["#5C6BC0", "#26A69A", "#EF5350", "#AB47BC", "#FFA726", "#29B6F6"];
   const colorIndex = profile?.user?.username
     ? profile.user.username.charCodeAt(0) % avatarColors.length

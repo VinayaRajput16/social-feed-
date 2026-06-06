@@ -24,7 +24,7 @@ const login = async (username, password) => {
   // issue JWT
   const token = jwt.sign(
     { id: user._id, username: user.username },
-    process.env.JWT_SECRET,   // store this in your .env file
+    process.env.JWT_SECRET,   
     { expiresIn: "1h" }       // token validity
   );
 

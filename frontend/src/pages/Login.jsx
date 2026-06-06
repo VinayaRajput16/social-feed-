@@ -75,7 +75,7 @@ function Login() {
             mb: 2,
           }}
         >
-          {/* Logo / Brand */}
+          {/* Logo */}
           <Typography
             variant="h4"
             align="center"

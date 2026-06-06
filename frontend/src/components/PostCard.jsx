@@ -283,7 +283,7 @@ function PostCard({ postId }) {
             },
           }}
         >
-          {[...comments] // clone to avoid mutating original
+          {[...comments] 
             .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) // newest first
             .map((comment, index) => (
               <Box key={comment._id || index} sx={{
